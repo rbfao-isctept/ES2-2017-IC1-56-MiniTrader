@@ -19,6 +19,7 @@ public class MicroTraderClientImpl implements MicroTraderClient {
 	}
 
 	/* Start clientComm */
+	
 	@Override
 	public void start(ClientComm clientComm) {
 		try {
