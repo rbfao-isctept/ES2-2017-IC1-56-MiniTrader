@@ -13,7 +13,7 @@ public class MicroTraderClientImpl implements MicroTraderClient {
 	
 	//Primeiro Commit
 	
-	/*	Commit para video	*/
+	//Commit para video
 	
 	public static void main(String args[]) {
 		ClientComm clientComm = new ClientCommImpl();
