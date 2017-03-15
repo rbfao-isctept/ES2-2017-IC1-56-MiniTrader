@@ -1,10 +1,6 @@
 package mt.test;
 
-import mt.Order;
-import mt.comm.ServerComm;
-import mt.comm.ServerSideMessage;
-import mt.comm.ServerSideMessage.Type;
-import mt.server.MicroServer;
+import static org.mockito.Mockito.*;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -12,8 +8,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import static org.mockito.Mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import mt.Order;
+import mt.comm.ServerComm;
+import mt.comm.ServerSideMessage;
+import mt.comm.ServerSideMessage.Type;
+import mt.server.MicroServer;
 
 /**
  * Test Class for MicroServer
