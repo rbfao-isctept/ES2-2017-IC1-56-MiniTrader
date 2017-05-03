@@ -214,6 +214,9 @@ public class MicroServer implements MicroTraderServer {
 	 * @param msg
 	 *            the message sent by the client
 	 */
+	
+	private int numberOfSellOrders = 0;
+	
 	private void processNewOrder(ServerSideMessage msg) throws ServerException {
 		LOGGER.log(Level.INFO, "Processing new order...");
 
@@ -221,7 +224,12 @@ public class MicroServer implements MicroTraderServer {
 		
 		// save the order on map
 		saveOrder(o);
-
+		
+		//if number of units is less than 10
+		if(o.getNumberOfUnits() < 10){
+			throw new ServerException("You can't buy/sell less than 10 units!");
+		}
+		
 		// if is buy order
 		if (o.isBuyOrder()) {
 			processBuy(msg.getOrder());
@@ -231,7 +239,7 @@ public class MicroServer implements MicroTraderServer {
 		if (o.isSellOrder()) {
 			processSell(msg.getOrder());
 		}
-
+		
 		// notify clients of changed order
 		notifyClientsOfChangedOrders();
 
@@ -241,7 +249,27 @@ public class MicroServer implements MicroTraderServer {
 		// reset the set of changed orders
 		updatedOrders = new HashSet<>();
 
+		System.out.println(orderMap);
 	}
+	
+	/**
+	 * 
+	 * @param order	refers to a client buy order or a sell order
+	 * @param msg	the message sent by the client
+	 * @throws ServerException	exception thrown in the method sameNickname, in case the client tries to buy/sell 
+	 * 								his own order
+	 */
+	/*
+	public void sameNickname(Order order, ServerSideMessage msg) throws ServerException {
+		if(order.isBuyOrder() && !order.getNickname().equals(msg.getSenderNickname())){
+			if()
+				processBuy(msg.getOrder());
+			}
+		}
+		if(order.isSellOrder() && !order.getNickname().equals(msg.getSenderNickname()))
+			processSell(msg.getOrder());
+	}
+	*/
 	
 	/**
 	 * Store the order on map
