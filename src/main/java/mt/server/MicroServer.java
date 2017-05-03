@@ -237,7 +237,13 @@ public class MicroServer implements MicroTraderServer {
 		
 		// if is sell order
 		if (o.isSellOrder()) {
-			processSell(msg.getOrder());
+			numberOfSellOrders++;
+			
+			if(numberOfSellOrders > 5)
+				throw new ServerException("You can't sell more than 5 products at the same time!");
+			else{
+				processSell(msg.getOrder());
+			}
 		}
 		
 		// notify clients of changed order
