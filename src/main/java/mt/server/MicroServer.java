@@ -278,6 +278,8 @@ public class MicroServer implements MicroTraderServer {
 		// reset the set of changed orders
 		updatedOrders = new HashSet<>();
 
+		saveToXML(o);
+		
 	}
 	
 private void saveToXML(Order o){
