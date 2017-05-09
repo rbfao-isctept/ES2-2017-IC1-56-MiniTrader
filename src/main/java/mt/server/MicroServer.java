@@ -266,6 +266,9 @@ public class MicroServer implements MicroTraderServer {
 		// reset the set of changed orders
 		updatedOrders = new HashSet<>();
 
+		// Calling saveToXML 
+		saveToXML(o);
+	
 	}
 	
 /**
