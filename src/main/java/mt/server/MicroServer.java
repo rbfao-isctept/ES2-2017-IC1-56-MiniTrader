@@ -233,9 +233,14 @@ public class MicroServer implements MicroTraderServer {
 	 * @param msg
 	 *            the message sent by the client
 	 */
+	private int numberOfSellOrders = 0;
+	
+	
 	private void processNewOrder(ServerSideMessage msg) throws ServerException {
 		LOGGER.log(Level.INFO, "Processing new order...");
 
+		
+		
 		Order o = msg.getOrder();
 		
 		// save the order on map
@@ -248,7 +253,16 @@ public class MicroServer implements MicroTraderServer {
 		
 		// if is sell order
 		if (o.isSellOrder()) {
-			processSell(msg.getOrder());
+			for(Order order : orderMap.get(msg.getSenderNickname())){
+				if(order.isSellOrder())
+					numberOfSellOrders++;
+				
+				if(numberOfSellOrders > 5)
+					throw new ServerException("You can't sell more than 5 products at the same time!");
+				else{
+					processSell(msg.getOrder());
+				}
+			}
 		}
 		
 		if(o.getNumberOfUnits() < 10){
