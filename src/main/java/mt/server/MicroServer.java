@@ -27,6 +27,8 @@ import mt.filter.AnalyticsFilter;
  * @author Group 78
  *
  */
+// criado o Branch 
+
 public class MicroServer implements MicroTraderServer {
 	
 	public static void main(String[] args) {
