@@ -228,6 +228,7 @@ public class MicroServer implements MicroTraderServer {
 		//if number of units is less than 10
 		if(o.getNumberOfUnits() < 10){
 			throw new ServerException("You can't buy/sell less than 10 units!");
+			
 		}
 		
 		// if is buy order
@@ -261,24 +262,6 @@ public class MicroServer implements MicroTraderServer {
 		System.out.println(orderMap);
 	}
 	
-	/**
-	 * 
-	 * @param order	refers to a client buy order or a sell order
-	 * @param msg	the message sent by the client
-	 * @throws ServerException	exception thrown in the method sameNickname, in case the client tries to buy/sell 
-	 * 								his own order
-	 */
-	/*
-	public void sameNickname(Order order, ServerSideMessage msg) throws ServerException {
-		if(order.isBuyOrder() && !order.getNickname().equals(msg.getSenderNickname())){
-			if()
-				processBuy(msg.getOrder());
-			}
-		}
-		if(order.isSellOrder() && !order.getNickname().equals(msg.getSenderNickname()))
-			processSell(msg.getOrder());
-	}
-	*/
 	
 	/**
 	 * Store the order on map
