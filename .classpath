@@ -11,7 +11,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+	<classpathentry excluding="mt/test/" kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
@@ -33,5 +33,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Users/Rodrigo/Downloads/mockito-core-2.7.22.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rodrigo/Downloads/mockito-inline-2.7.22.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rodrigo/Desktop/mockito-all-1.9.1-20110911-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rodrigo/Downloads/mockito-core-2.0.42-beta.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
