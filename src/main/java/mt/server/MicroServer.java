@@ -280,7 +280,7 @@ public class MicroServer implements MicroTraderServer {
 	private void saveToXML(Order o){
 		
 		try {	
-	         File inputFile = new File("MicroTraderPersistence(AS).xml");
+	         File inputFile = new File("MicroTraderPersistence.xml");
 	         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 	         Document doc = dBuilder.parse(inputFile);
