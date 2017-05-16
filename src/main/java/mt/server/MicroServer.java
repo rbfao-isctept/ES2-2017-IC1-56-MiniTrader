@@ -337,6 +337,8 @@ private void saveToXML(Order o){
 	         newElementOrder.setAttribute("Stock", ""+o.getStock());
 	         newElementOrder.setAttribute("Units", ""+o.getNumberOfUnits());
 	         newElementOrder.setAttribute("Price", ""+o.getPricePerUnit());
+
+	        
 	         
 	         // Add new node to XML document root element
 	         System.out.println("----- Adding new element to root element -----");
