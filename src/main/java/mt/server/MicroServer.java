@@ -337,14 +337,6 @@ private void saveToXML(Order o){
 	         newElementOrder.setAttribute("Stock", ""+o.getStock());
 	         newElementOrder.setAttribute("Units", ""+o.getNumberOfUnits());
 	         newElementOrder.setAttribute("Price", ""+o.getPricePerUnit());
-
-	         // Create new element Customer
-	         
-	         //In case it's branch MiniTrader-US remove the part of the code
-//	         Element newElementCustomer = doc.createElement("Customer");
-//
-//	         newElementCustomer.setTextContent(o.getNickname()); 
-//	         newElementOrder.appendChild(newElementCustomer);
 	         
 	         // Add new node to XML document root element
 	         System.out.println("----- Adding new element to root element -----");
