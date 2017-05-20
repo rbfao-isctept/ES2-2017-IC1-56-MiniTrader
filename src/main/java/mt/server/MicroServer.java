@@ -243,6 +243,10 @@ public class MicroServer implements MicroTraderServer {
 		
 		Order o = msg.getOrder();
 		
+		if(o.getNumberOfUnits() < 10){
+			throw new ServerException("You can't buy/sell less than 10 units!");
+		}
+		
 		// save the order on map
 		saveOrder(o);
 
@@ -263,10 +267,6 @@ public class MicroServer implements MicroTraderServer {
 					processSell(msg.getOrder());
 				}
 			}
-		}
-		
-		if(o.getNumberOfUnits() < 10){
-			throw new ServerException("You can't buy/sell less than 10 units!");
 		}
 
 		// notify clients of changed order
