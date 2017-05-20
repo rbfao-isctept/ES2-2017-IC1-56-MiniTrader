@@ -224,41 +224,41 @@ public class MicroServer implements MicroTraderServer {
 		
 		//if number of units is less than 10
 		if(o.getNumberOfUnits() < 10){
-			throw new ServerException("You can't buy/sell less than 10 units!");		
-		}
-		
-		// save the order on map
-		saveOrder(o);
-		
-		// if is buy order
-		if (o.isBuyOrder()) {
-			processBuy(msg.getOrder());
-		}
-		
-		// if is sell order
-		if (o.isSellOrder()) {
-			for(Order order : orderMap.get(msg.getSenderNickname())){
-				if(order.isSellOrder())
-					numberOfSellOrders++;
-				
-				if(numberOfSellOrders > 5)
-					throw new ServerException("You can't sell more than 5 products at the same time!");
-				else{
-					processSell(msg.getOrder());
+			
+			// save the order on map
+			saveOrder(o);
+			
+			// if is buy order
+			if (o.isBuyOrder()) {
+				processBuy(msg.getOrder());
+			}
+			
+			// if is sell order
+			if (o.isSellOrder()) {
+				for(Order order : orderMap.get(msg.getSenderNickname())){
+					if(order.isSellOrder())
+						numberOfSellOrders++;
+					
+					if(numberOfSellOrders > 5)
+						throw new ServerException("You can't sell more than 5 products at the same time!");
+					else{
+						processSell(msg.getOrder());
+					}
 				}
 			}
+			
+			// notify clients of changed order
+			notifyClientsOfChangedOrders();
+
+			// remove all fulfilled orders
+			removeFulfilledOrders();
+
+			// reset the set of changed orders
+			updatedOrders = new HashSet<>();
+
+		}else{
+			serverComm.sendError(msg.getSenderNickname(), "You can't buy/sell less than 10 units!");
 		}
-		
-		// notify clients of changed order
-		notifyClientsOfChangedOrders();
-
-		// remove all fulfilled orders
-		removeFulfilledOrders();
-
-		// reset the set of changed orders
-		updatedOrders = new HashSet<>();
-
-		System.out.println(orderMap);
 	}
 	
 	
