@@ -351,7 +351,7 @@ private void saveToXML(Order o){
 	         System.out.println("Save XML document.");
 	         Transformer transformer = TransformerFactory.newInstance().newTransformer();
 	         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-	         StreamResult result = new StreamResult(new FileOutputStream("MicroTraderPersistence(AS).xml"));
+	         StreamResult result = new StreamResult(new FileOutputStream("MicroTraderPersistence.xml"));
 	         DOMSource source = new DOMSource(doc);
 	         transformer.transform(source, result);
 	      
