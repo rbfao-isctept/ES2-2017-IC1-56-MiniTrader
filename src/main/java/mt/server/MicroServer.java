@@ -241,36 +241,36 @@ public class MicroServer implements MicroTraderServer {
 		Order o = msg.getOrder();
 		
 		// restriction cant buy or sell less than 10 units 
-		if(o.getNumberOfUnits() < 10){
-			throw new ServerException("You can't buy/sell less than 10 units!");
+		if(o.getNumberOfUnits() >= 10){
+			
+			// save the order on map
+			saveOrder(o);
+
+			// if is buy order
+			if (o.isBuyOrder()) {
+				processBuy(msg.getOrder());
+			}
+			
+			// if is sell order
+			if (o.isSellOrder()) {
+				processSell(msg.getOrder());
+			}
+			
+
+			// notify clients of changed order
+			notifyClientsOfChangedOrders();
+
+			// remove all fulfilled orders
+			removeFulfilledOrders();
+
+			// reset the set of changed orders
+			updatedOrders = new HashSet<>();
+
+			// Calling saveToXML 
+			saveToXML(o);
+		}else{
+			serverComm.sendError(msg.getSenderNickname(), "You can't buy/sell less than 10 units!");
 		}
-		
-		// save the order on map
-		saveOrder(o);
-
-		// if is buy order
-		if (o.isBuyOrder()) {
-			processBuy(msg.getOrder());
-		}
-		
-		// if is sell order
-		if (o.isSellOrder()) {
-			processSell(msg.getOrder());
-		}
-		
-
-		// notify clients of changed order
-		notifyClientsOfChangedOrders();
-
-		// remove all fulfilled orders
-		removeFulfilledOrders();
-
-		// reset the set of changed orders
-		updatedOrders = new HashSet<>();
-
-		// Calling saveToXML 
-		saveToXML(o);
-	
 	}
 	
 /**
