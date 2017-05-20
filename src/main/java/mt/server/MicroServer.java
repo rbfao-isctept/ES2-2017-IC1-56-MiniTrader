@@ -239,50 +239,49 @@ public class MicroServer implements MicroTraderServer {
 	private void processNewOrder(ServerSideMessage msg) throws ServerException {
 		LOGGER.log(Level.INFO, "Processing new order...");
 
-		
-		
 		Order o = msg.getOrder();
 		
-		if(o.getNumberOfUnits() < 10){
-			throw new ServerException("You can't buy/sell less than 10 units!");
-		}
+		if(o.getNumberOfUnits() >= 10){
 		
-		// save the order on map
-		saveOrder(o);
-
-		// if is buy order
-		if (o.isBuyOrder()) {
-			processBuy(msg.getOrder());
-		}
-		
-		// if is sell order
-		if (o.isSellOrder()) {
-			for(Order order : orderMap.get(msg.getSenderNickname())){
-				if(order.isSellOrder())
-					numberOfSellOrders++;
+			// save the order on map
+			saveOrder(o);
 				
-				if(numberOfSellOrders > 5)
-					throw new ServerException("You can't sell more than 5 products at the same time!");
-				else{
-					processSell(msg.getOrder());
+			// if is buy order
+			if (o.isBuyOrder()) {
+				processBuy(msg.getOrder());
+			}
+						
+			// if is sell order
+			if (o.isSellOrder()) {
+				for(Order order : orderMap.get(msg.getSenderNickname())){
+					if(order.isSellOrder())
+						numberOfSellOrders++;
+								
+					if(numberOfSellOrders > 5)
+						throw new ServerException("You can't sell more than 5 products at the same time!");
+					else{
+						processSell(msg.getOrder());
+					}
 				}
 			}
+
+			// notify clients of changed order
+			notifyClientsOfChangedOrders();
+				
+			// remove all fulfilled orders
+			removeFulfilledOrders();
+				
+			// reset the set of changed orders
+			updatedOrders = new HashSet<>();
+				
+			saveToXML(o);
+		}else{
+			serverComm.sendError(msg.getSenderNickname(), "You can't buy/sell less than 10 units!");
 		}
-
-		// notify clients of changed order
-		notifyClientsOfChangedOrders();
-
-		// remove all fulfilled orders
-		removeFulfilledOrders();
-
-		// reset the set of changed orders
-		updatedOrders = new HashSet<>();
-
-		saveToXML(o);
 		
 	}
 	
-private void saveToXML(Order o){
+	private void saveToXML(Order o){
 		
 		try {	
 	         File inputFile = new File("MicroTraderPersistence.xml");
