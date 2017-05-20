@@ -240,7 +240,7 @@ public class MicroServer implements MicroTraderServer {
 						numberOfSellOrders++;
 					
 					if(numberOfSellOrders > 5)
-						throw new ServerException("You can't sell more than 5 products at the same time!");
+						serverComm.sendError(msg.getSenderNickname(), "You can't sell more than 5 products at the same time!");
 					else{
 						processSell(msg.getOrder());
 					}
