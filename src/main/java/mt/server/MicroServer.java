@@ -231,6 +231,7 @@ public class MicroServer implements MicroTraderServer {
 		}
 	}
 
+	
 	private boolean unfulfilledOrders(Order o){
 		
 		boolean validOrder = true;
