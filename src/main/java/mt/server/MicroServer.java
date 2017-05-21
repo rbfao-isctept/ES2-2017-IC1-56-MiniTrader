@@ -123,6 +123,8 @@ public class MicroServer implements MicroTraderServer {
 		LOGGER.log(Level.INFO, "Shutting Down Server...");
 	}
 
+	
+	
 	/**
 	 * Verify if user is already connected
 	 * 
