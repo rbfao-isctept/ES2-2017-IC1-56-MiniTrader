@@ -125,6 +125,7 @@ public class MicroServer implements MicroTraderServer {
 
 	
 	
+	
 	/**
 	 * Verify if user is already connected
 	 * 
