@@ -279,7 +279,6 @@ public class MicroServer implements MicroTraderServer {
  *	order made by client 
  */ 
 	
-	
 	private void saveToXML(Order o){
 		
 		try {	
