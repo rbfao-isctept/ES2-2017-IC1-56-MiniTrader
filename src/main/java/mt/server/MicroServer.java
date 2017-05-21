@@ -106,8 +106,12 @@ public class MicroServer implements MicroTraderServer {
 					if (msg.getOrder().getNumberOfUnits() < 10) {
 						serverComm.sendError(msg.getSenderNickname(), "You can't buy/sell less than 10 units");
 					}
-					notifyAllClients(msg.getOrder());
-					processNewOrder(msg);
+					if (msg.getOrder().getNumberOfUnits() >= 10) {
+						notifyAllClients(msg.getOrder());
+						processNewOrder(msg);
+					}else{
+						serverComm.sendError(msg.getSenderNickname(), "You can't buy/sell less than 10 units");
+					}
 				} catch (ServerException e) {
 					serverComm.sendError(msg.getSenderNickname(), e.getMessage());
 				}
