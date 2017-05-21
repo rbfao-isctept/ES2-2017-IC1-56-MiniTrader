@@ -11,6 +11,7 @@ Region US: https://www.youtube.com/watch?v=iYIAzaenuX0
 
 Jenkins: https://www.youtube.com/watch?v=PfgyMb8Jmdg
 
+
 Only one region (EU) wasn't working as it should because it doesn't let us buy a product we were selling, but when another client tries to buy it it doesn't take off the units from sell order.
 
 Rodrigo Ferreira n. 66272 rbfao@iscte.pt,
