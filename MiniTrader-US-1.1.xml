@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project ESII2017MiniTrader">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="C:/Users/Rodrigo/Desktop/ISCTE/3º ANO/2º Semestre/ES2/ES2-2017-IC1-56-MiniTrader"/>
+    <property name="dir.jarfile" value="${dir.buildfile}"/>
+    <target name="create_run_jar">
+        <jar destfile="${dir.jarfile}/MiniTrader-US-1.1.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="mt.server.MicroServer"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${dir.workspace}/ES2-2017-IC1-56-MiniTrader/ES2-2017-IC1-56-MiniTrader/target/classes"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Rodrigo/.p2/pool/plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Rodrigo/.p2/pool/plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Rodrigo/Downloads/mockito-core-2.7.22.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Rodrigo/Downloads/mockito-inline-2.7.22.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Rodrigo/Desktop/mockito-all-1.9.1-20110911-sources.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Rodrigo/Downloads/mockito-core-2.0.42-beta.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Rodrigo/.m2/repository/junit/junit/4.12/junit-4.12.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Rodrigo/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Rodrigo/.m2/repository/org/mockito/mockito-all/1.9.5/mockito-all-1.9.5.jar"/>
+        </jar>
+    </target>
+</project>
