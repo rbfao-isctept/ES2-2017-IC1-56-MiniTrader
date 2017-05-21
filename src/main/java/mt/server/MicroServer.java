@@ -106,12 +106,10 @@ public class MicroServer implements MicroTraderServer {
 					if (msg.getOrder().getNumberOfUnits() < 10) {
 						serverComm.sendError(msg.getSenderNickname(), "You can't buy/sell less than 10 units");
 					}
-					if (msg.getOrder().getNumberOfUnits() >= 10) {
+					if (msg.getOrder().getNumberOfUnits() >= 10 && unfulfilledOrders(msg.getOrder())){ 
 						notifyAllClients(msg.getOrder());
 						processNewOrder(msg);
-					}else{
-						serverComm.sendError(msg.getSenderNickname(), "You can't buy/sell less than 10 units");
-					}
+					}	
 				} catch (ServerException e) {
 					serverComm.sendError(msg.getSenderNickname(), e.getMessage());
 				}
@@ -123,9 +121,6 @@ public class MicroServer implements MicroTraderServer {
 		LOGGER.log(Level.INFO, "Shutting Down Server...");
 	}
 
-	
-	
-	
 	/**
 	 * Verify if user is already connected
 	 * 
@@ -220,6 +215,27 @@ public class MicroServer implements MicroTraderServer {
 		}
 	}
 
+	private boolean unfulfilledOrders(Order o) {
+
+		boolean validOrder = true;
+
+		if (o.isSellOrder() && orderMap.containsKey(o.getNickname())) {
+			Set<Order> orders = orderMap.get(o.getNickname());
+			int numberOfSellOrders = 0;
+			for (Order order : orders) {
+				if (order.isSellOrder())
+					numberOfSellOrders++;
+			}
+			if (numberOfSellOrders >= 5)
+				validOrder = false;
+		}
+
+		if (!validOrder)
+			serverComm.sendError(o.getNickname(), "You can't sell more than 5 orders at the same time!");
+
+		return validOrder;
+	}
+
 	/**
 	 * Process the new received order
 	 * 
@@ -244,17 +260,7 @@ public class MicroServer implements MicroTraderServer {
 
 		// if is sell order
 		if (o.isSellOrder()) {
-			for (Order order : orderMap.get(msg.getSenderNickname())) {
-				if (order.isSellOrder())
-					numberOfSellOrders++;
-
-				if (numberOfSellOrders > 5)
-					serverComm.sendError(msg.getSenderNickname(),
-							"You can't sell more than 5 products at the same time!");
-				else {
-					processSell(msg.getOrder());
-				}
-			}
+			processSell(msg.getOrder());
 		}
 
 		// notify clients of changed order
