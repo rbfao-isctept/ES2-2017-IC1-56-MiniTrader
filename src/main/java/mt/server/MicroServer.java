@@ -122,11 +122,9 @@ public class MicroServer implements MicroTraderServer {
 					if (msg.getOrder().getServerOrderID() == EMPTY) {
 						msg.getOrder().setServerOrderID(id++);
 					}
-					if (msg.getOrder().getNumberOfUnits() >= 10) {
+					if (msg.getOrder().getNumberOfUnits() >= 10 && unfulfilledOrders(msg.getOrder())) {
 						notifyAllClients(msg.getOrder());
 						processNewOrder(msg);
-					} else {
-						serverComm.sendError(msg.getSenderNickname(), "You can't buy/sell less than 10 units");
 					}
 				} catch (ServerException e) {
 					serverComm.sendError(msg.getSenderNickname(), e.getMessage());
@@ -233,13 +231,31 @@ public class MicroServer implements MicroTraderServer {
 		}
 	}
 
-	/**
-	 * Process the new received order
-	 * 
-	 * @param msg
-	 *            the message sent by the client
-	 */
-	private int numberOfSellOrders = 0;
+	private boolean unfulfilledOrders(Order o){
+		
+		boolean validOrder = true;
+		
+		if(o.isSellOrder() && orderMap.containsKey(o.getNickname())){
+			Set<Order> orders = orderMap.get(o.getNickname());
+			int numberOfSellOrders = 0;
+			for(Order order:orders){
+				if (order.isSellOrder())
+					numberOfSellOrders++;
+			}
+			System.out.println(numberOfSellOrders);System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			if (numberOfSellOrders >= 5)
+				validOrder=false;
+		}
+		
+		if(!validOrder)
+			serverComm.sendError(o.getNickname(), "You can't sell more than 5 orders at the same time!");
+	
+		
+		return validOrder;
+	}
+	
+	
+//	private int numberOfSellOrders = 0;
 
 	private void processNewOrder(ServerSideMessage msg) throws ServerException {
 		LOGGER.log(Level.INFO, "Processing new order...");
@@ -255,20 +271,23 @@ public class MicroServer implements MicroTraderServer {
 		}
 
 		// if is sell order
-		if (o.isSellOrder()) {
-			for (Order order : orderMap.get(msg.getSenderNickname())) {
-				if (order.isSellOrder())
-					numberOfSellOrders++;
+//		if (o.isSellOrder() && orderMap.containsKey(o.getNickname())) {
+//			for (Order order : orderMap.get(o.getNickname())) {
+//				if (order.isSellOrder())
+//					numberOfSellOrders++;
+//			}
+//				if (numberOfSellOrders <= 5)
+//					processSell(msg.getOrder());
+//				else 
+//					serverComm.sendError(msg.getSenderNickname(),
+//							"You can't sell more than 5 products at the same time!");			
+//		}
 
-				if (numberOfSellOrders > 5)
-					serverComm.sendError(msg.getSenderNickname(),
-							"You can't sell more than 5 products at the same time!");
-				else {
-					processSell(msg.getOrder());
-				}
-			}
+		// if is sell order
+		if (o.isSellOrder()){
+			processSell(msg.getOrder());
 		}
-
+		
 		// notify clients of changed order
 		notifyClientsOfChangedOrders();
 
@@ -341,10 +360,6 @@ public class MicroServer implements MicroTraderServer {
 
 			// Add new node to XML document root element
 			System.out.println("----- Adding new element to root element -----");
-			// System.out.println("Root element :" +
-			// doc.getDocumentElement().getNodeName());
-			// System.out.println("Add Order Id='5' Type='Buy' Stock='PT'
-			// Units='15' Price='20'");
 			Node n = doc.getDocumentElement();
 			n.appendChild(newElementOrder);
 
